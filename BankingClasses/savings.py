@@ -1,8 +1,7 @@
-"""The savings account class."""
-# TODO: Import the BankAccount class from the banking file.
+# Import the BankAccount class
+from banking.BankAccount import BankAccount
 
-# TODO: Implement the SavingsAccount class, which inherits from the BankAccount class.
-class
+class SavingsAccount(BankAccount):
     """
     A class representing a savings account.
 
@@ -11,39 +10,64 @@ class
         interest_rate (float): The interest rate for the savings account.
 
     Methods:
-        __init__(overdraft_limit=100): Initializes a new instance of the CheckingAccount class.
+        __init__(balance=0, interest_rate=0.01): Initializes a new instance of the SavingsAccount class.
         deposit(amount): Deposits the specified amount into the account.
         withdraw(amount): Withdraws the specified amount from the account.
+        apply_interest(): Applies interest to the account balance.
         get_balance(): Returns the current balance of the account.
     """
-    # TODO: Define the constructor with a balance and overdraft_limit parameter.
-    # TODO: Set the overdraft limit attribute to 100 by default.
-    # TODO: Call the parent class constructor, BankAccount, to initialize the balance attribute.
 
+    def __init__(self, balance=0, interest_rate=0.01):
+        """
+        Initializes a new instance of the SavingsAccount class.
 
-    # TODO: Implement the deposit method with an amount parameter.
+        Args:
+            balance (float): The initial balance of the account.
+            interest_rate (float): The interest rate for the savings account. Default is 1% (0.01).
+        """
+        super().__init__(balance)  # Call the parent class constructor to initialize the balance.
+        self.interest_rate = interest_rate
+
+    def deposit(self, amount):
         """
         Deposits the specified amount into the savings account.
+
         Args:
-        amount (float): The amount to be deposited.
+            amount (float): The amount to be deposited.
+
+        Raises:
+            ValueError: If the deposit amount is not positive.
         """
-        # TODO: Add the amount to the balance attribute.
+        if amount <= 0:
+            raise ValueError("Deposit amount must be positive.")
+        self.balance += amount
 
-
-    # TODO: Implement the withdraw method with an amount parameter.
+    def withdraw(self, amount):
         """
         Withdraws the specified amount from the savings account.
+
         Args:
             amount (float): The amount to be withdrawn.
+
         Raises:
-            ValueError: If the specified amount is greater than the current balance.
+            ValueError: If the specified amount exceeds the current balance.
         """
-        if:
-        # TODO: Check if the amount is less than or equal to the sum of the balance and overdraft limit.
-        # TODO: If the condition is met, subtract the amount from the balance attribute.
+        if amount <= self.balance:
+            self.balance -= amount
         else:
-        # TODO: Otherwise, raise a ValueError with the message "Insufficient funds, overdraft limit reached".
+            raise ValueError("Insufficient funds.")
+
+    def apply_interest(self):
+        """
+        Applies the interest rate to the current balance and updates it.
+        """
+        self.balance += self.balance * self.interest_rate
 
     def get_balance(self):
-        """Returns the current balance of the savings account."""
+        """
+        Returns the current balance of the savings account.
+
+        Returns:
+            float: The current balance of the savings account.
+        """
         return self.balance

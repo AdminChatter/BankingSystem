@@ -1,7 +1,4 @@
-"""This function handles the transfer process for the user."""
-
-# TODO: Pass in the checking_account and savings_account objects.
-def handle_transfer():
+def handle_transfer(checking, savings):
     """
     Handles the transfer of funds between checking and savings accounts.
 
@@ -14,37 +11,59 @@ def handle_transfer():
     If the user enters 'q', the function returns and exits.
     If the user enters '1', the function asks for the withdrawal amount from the checking account.
     If the user enters '2', the function asks for the withdrawal amount from the savings account.
-    After the transfer the function prints the updated balances of both accounts.
+    After the transfer, the function prints the updated balances of both accounts.
     If the user enters an invalid choice, the function displays an error message and prompts again.
     """
     print("Which account would you like to transfer from?")
-    # TODO: Prompt the user to select an account to transfer from.
-    # TODO: If the user chooses to quit, return from the function.
-    if:
+    print("1. Checking Account")
+    print("2. Savings Account")
+    print("Enter 'q' to quit.")
+
+    # Prompt user to select an account or quit
+    choice = input("Select an account to transfer from (1 or 2): ").strip().lower()
+
+    if choice == 'q':
+        print("Transfer process canceled.")
         return
 
     try:
-        # TODO: If the selection is in a list of valid choices, i.e ['1', '2']
-        if:
+        if choice in ['1', '2']:
             try:
-                # TODO: Prompt the user to enter the amount to transfer and convert it to a float.
-            except ValueError:
-                # TODO: Print an error message if the user enters an invalid amount.
-                # TODO: Call the handle_transfer function recursively if the user enters an invalid amount.
-                return
+                # Prompt the user to enter the amount to transfer
+                amount = float(input("Enter the amount to transfer: ").strip())
+                if amount <= 0:
+                    raise ValueError("The transfer amount must be greater than zero.")
 
-            # TODO: Add an if/else conditional statement to check the account choice,
-            if:
-                # TODO: Call the withdraw and deposit methods on the appropriate account.
-            else:
-                # TODO: Call the withdraw and deposit methods on the appropriate account.
-            # After the transfer call the balances function with the accounts.
-            balances(checking, savings)
+                if choice == '1':
+                    # Transfer from checking to savings
+                    if checking.get_balance() >= amount:
+                        checking.withdraw(amount)
+                        savings.deposit(amount)
+                        print(f"Transfer successful! ${amount:,.2f} transferred from Checking to Savings.")
+                    else:
+                        print("Insufficient funds in Checking Account.")
+                elif choice == '2':
+                    # Transfer from savings to checking
+                    if savings.get_balance() >= amount:
+                        savings.withdraw(amount)
+                        checking.deposit(amount)
+                        print(f"Transfer successful! ${amount:,.2f} transferred from Savings to Checking.")
+                    else:
+                        print("Insufficient funds in Savings Account.")
+                
+                # Display updated balances
+                balances(checking, savings)
+            except ValueError as ve:
+                print(f"Invalid amount: {ve}")
+                print("Please try again.")
+                handle_transfer(checking, savings)  # Recursive call for invalid amount
+                return
         else:
-            # TODO: Raise a ValueError with a message stating the user entered an invalid choice.
-    except ValueError as e:
-        print(e)
-        handle_transfer(checking, savings)
+            raise ValueError("Invalid choice. Please select '1' or '2'.")
+    except ValueError as ve:
+        print(ve)
+        print("Please try again.")
+        handle_transfer(checking, savings)  # Recursive call for invalid choice
 
 def balances(checking, savings):
     """This function prints the account balances for the user."""

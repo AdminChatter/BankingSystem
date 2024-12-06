@@ -1,8 +1,4 @@
-"""This function handles the deposit process for the user."""
-
-# TODO: Build out the handle_deposit function
-# TODO: Pass in the checking account and savings account objects.
-def handle_deposit():
+def handle_deposit(checking, savings):
     """
     This function handles the deposit process for the user.
 
@@ -11,38 +7,42 @@ def handle_deposit():
     savings (Account): The savings account object.
     """
     print("Which account would you like to make a deposit?")
-    # TODO: Prompt the user to select an account and make a deposit.
-    # TODO: If the user chooses to quit, return from the function.
-    if:
+    print("1. Checking Account")
+    print("2. Savings Account")
+    print("Enter 'q' to quit.")
+
+    # Prompt user to select an account or quit
+    choice = input("Select an account (1 or 2): ").strip().lower()
+
+    if choice == 'q':
+        print("Deposit process canceled.")
         return
 
     try:
-        # TODO: If the selection is in a list of valid choices, i.e ['1', '2']
-        if:
+        if choice in ['1', '2']:
+            # Prompt for deposit amount
             try:
-                # TODO: Prompt the user to enter the amount to deposit and convert it to a float.
+                amount = float(input("Enter the amount to deposit: ").strip())
+                if amount <= 0:
+                    raise ValueError("The deposit amount must be greater than zero.")
 
-            # Use the ValueError as an exception.
-            except ValueError:
-                # TODO: Print an error message if the user enters an invalid amount.
+                if choice == '1':
+                    # Deposit to checking account
+                    checking.deposit(amount)
+                    print(f"Deposit successful. Checking account balance: ${checking.balance:,.2f}")
+                elif choice == '2':
+                    # Deposit to savings account
+                    savings.deposit(amount)
+                    print(f"Deposit successful. Savings account balance: ${savings.balance:,.2f}")
 
-                # TODO: Call the handle_deposit function recursively for an invalid amount.
-
-                # TODO: Ensure the function returns after the recursive call.
-
-            # TODO: Add an if/else conditional statement to check the account choice,
-            if:
-                # TODO: Call the withdraw method on the appropriate account.
-                # TODO: Add a print statement to display the updated balance after the deposit
-                # TODO: Format the balance to two decimal places and thousands.
-            else:
-                # TODO: Call the deposit methods on the appropriate account.
-                # TODO: Add a print statement to display the updated balance after the deposit
-                # TODO: Format the balance to two decimal places and thousands.
+            except ValueError as ve:
+                print(f"Invalid amount: {ve}")
+                print("Please try again.")
+                handle_deposit(checking, savings)  # Recursive call for invalid amount
+                return
         else:
-            # TODO: Raise a ValueError with a message stating the user entered an invalid choice.
-    # If the user enters an invalid choice,
-    # Print the ValueError message and call the handle_deposit function recursively.
-    except ValueError as e:
-        print(e)
-        handle_deposit(checking, savings)
+            raise ValueError("Invalid choice. Please select '1' or '2'.")
+    except ValueError as ve:
+        print(ve)
+        print("Please try again.")
+        handle_deposit(checking, savings)  # Recursive call for invalid choice

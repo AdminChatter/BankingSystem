@@ -1,9 +1,12 @@
-"""This function handles the transfer process for the user."""
-# TODO: Import the Checking, Savings, and Validation classes
-# TODO: These should be imported from the appropriate file in the BankingClasses directory.
+# Import necessary classes and functions
+from BankingClasses.Checking import CheckingAccount
+from BankingClasses.Savings import SavingsAccount
+from BankingClasses.Validation import Validation
+from BankingFunctions.balances import balances
+from BankingFunctions.handle_deposit import handle_deposit
+from BankingFunctions.handle_withdrawal import handle_withdrawal
+from BankingFunctions.handle_transfer import handle_transfer
 
-# TODO: Import the handle_deposit, handle_withdrawal, handle_transfer, and balances functions
-# TODO: These should be imported from the appropriate file in the BankingFunctions directory.
 
 def main():
     """
@@ -15,46 +18,62 @@ def main():
     """
     email = input("Enter your email: ")
     print("Your password should be at least 8 characters long,\n"
-           "contain at least one uppercase and lowercase letter,\n"
-           "one number, and one of the following special characters:!@#$%^&*.")
+          "contain at least one uppercase and lowercase letter,\n"
+          "one number, and one of the following special characters: !@#$%^&*.")
     password = input("Enter your password: ")
 
-    # TODO: Initialize the attempts variable to 1.
-    # TODO: Create a while loop to validate the email and password.
-    # TODO: The while loop should run as long as the attempts variable is less than 3.
+    # Initialize the attempts variable to 1
+    attempts = 1
 
-        # TODO: Validate the email and password using the Validation class.
-
-            # If the email and password are invalid,
-            # print a message and prompt the user to enter their email and password again.
+    # Validate email and password
+    while attempts < 3:
+        if not Validation.validate_email(email) or not Validation.validate_password(password):
             print("Invalid email or password. Please try again.")
             email = input("Enter your email: ")
             password = input("Enter your password: ")
+            attempts += 1
+        else:
+            break
+    else:
+        print("Too many invalid attempts. Exiting the program.")
+        return
 
-        # TODO: Otherwise, break out of the loop.
-
-    # TODO: If the maximum number of attempts is reached, print a message and exit the program.
-
-    # Set up accounts with default balances.
+    # Set up accounts with default balances
     checking_account = CheckingAccount(4321.00)
     savings_account = SavingsAccount(6543.21)
 
-    # Print a message for the user inform them of their checking and savings balances
-    print("Here are your account balances:")
-    # TODO: Use the get_balance method to retrieve the current balance of each account.
+    # Print account balances
+    print("\nWelcome! Here are your account balances:")
+    balances(checking_account, savings_account)
 
-    # TODO: Write while loop to present options for the user.
-    # TODO: Present a menu of options to the user.
-    # TODO: Allowing them to make deposits, withdrawals, or transfers between accounts.
+    # Banking menu loop
+    while True:
+        print("\nBanking Menu:")
+        print("1. Deposit")
+        print("2. Withdraw")
+        print("3. Transfer")
+        print("4. Show Balances")
+        print("5. Exit")
 
-        # TODO: Create a list of valid choices.
+        choice = input("Enter your choice (1-5): ").strip()
 
-            # TODO: Use if/elif conditional statements to check the user's choice.
-            # TODO: If the choice is in the list of valid choices, call the appropriate function.
-            # TODO: Pass in the checking_account and savings_account objects.
+        # List of valid choices
+        valid_choices = ['1', '2', '3', '4', '5']
 
-
-        # TODO: If the user enters an invalid choice, print a message.
+        if choice in valid_choices:
+            if choice == '1':
+                handle_deposit(checking_account, savings_account)
+            elif choice == '2':
+                handle_withdrawal(checking_account, savings_account)
+            elif choice == '3':
+                handle_transfer(checking_account, savings_account)
+            elif choice == '4':
+                balances(checking_account, savings_account)
+            elif choice == '5':
+                print("Thank you for using our banking system. Goodbye!")
+                break
+        else:
+            print("Invalid choice. Please select an option from the menu.")
 
 if __name__ == "__main__":
     main()
