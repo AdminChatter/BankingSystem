@@ -1,11 +1,11 @@
 # Import necessary classes and functions
-from BankingClasses.Checking import CheckingAccount
-from BankingClasses.Savings import SavingsAccount
-from BankingClasses.Validation import Validation
-from BankingFunctions.balances import balances
-from BankingFunctions.handle_deposit import handle_deposit
-from BankingFunctions.handle_withdrawal import handle_withdrawal
-from BankingFunctions.handle_transfer import handle_transfer
+from .BankingClasses.checking import CheckingAccount
+from .BankingClasses.savings import SavingsAccount
+from .BankingClasses.validation import Validation
+from BankingFunctions import balances
+from BankingFunctions.deposit import handle_deposit
+from BankingFunctions.withdraw import handle_withdrawal
+from BankingFunctions.transfer import handle_transfer
 
 
 def main():

@@ -1,5 +1,5 @@
 # Import the BankAccount class
-from banking.BankAccount import BankAccount
+from .banking import BankAccount
 
 class SavingsAccount(BankAccount):
     """
