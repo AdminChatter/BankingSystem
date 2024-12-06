@@ -1,8 +1,8 @@
 # Import necessary classes and functions
-from .BankingClasses.checking import CheckingAccount
-from .BankingClasses.savings import SavingsAccount
-from .BankingClasses.validation import Validation
-from BankingFunctions import balances
+from BankingClasses.checking import CheckingAccount
+from BankingClasses.savings import SavingsAccount
+from BankingClasses.validation import Validation
+from BankingFunctions.transfer import balances
 from BankingFunctions.deposit import handle_deposit
 from BankingFunctions.withdraw import handle_withdrawal
 from BankingFunctions.transfer import handle_transfer
@@ -18,8 +18,8 @@ def main():
     """
     email = input("Enter your email: ")
     print("Your password should be at least 8 characters long,\n"
-          "contain at least one uppercase and lowercase letter,\n"
-          "one number, and one of the following special characters: !@#$%^&*.")
+        "contain at least one uppercase and lowercase letter,\n"
+        "one number, and one of the following special characters: !@#$%^&*.")
     password = input("Enter your password: ")
 
     # Initialize the attempts variable to 1
